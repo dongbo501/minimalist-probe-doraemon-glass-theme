@@ -125,18 +125,15 @@ onBeforeUnmount(() => {
   isolation: isolate;
   min-height: 16.5rem;
   overflow: hidden;
-  border: 3px solid #ffffff;
-  border-radius: 1.4rem;
-  background: rgb(243 251 255 / var(--dora-surface-alpha, 1));
+  border: 1px solid var(--lg-border);
+  border-radius: var(--lg-radius);
+  background: var(--lg-fill);
   box-shadow:
-    0 0 0 3px var(--dora-red),
-    0 4px 0 3px rgb(163 0 13 / 0.6),
-    0 18px 36px rgb(0 60 110 / 0.28);
-}
-
-:global(.dark .dora-stage) {
-  border-color: #0a2c4a;
-  background: rgb(6 36 63 / var(--dora-surface-alpha, 1));
+    inset 0 -3px 0 rgb(230 0 18 / 0.8),
+    var(--lg-highlight),
+    var(--lg-shadow);
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
 }
 
 /* 哆啦A梦从地图左下角探出头来 */

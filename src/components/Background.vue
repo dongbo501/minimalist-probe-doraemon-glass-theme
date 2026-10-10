@@ -134,6 +134,10 @@ onUnmounted(() => {
   <div class="background-container" :style="backgroundContainerStyle">
     <Transition name="fade">
       <div v-if="showDefaultBackground" class="default-background" aria-hidden="true">
+        <!-- 液态玻璃需要有颜色可以折射：天空里铺几团缓慢漂移的柔光 -->
+        <span class="lg-glow lg-glow--gold" />
+        <span class="lg-glow lg-glow--pink" />
+        <span class="lg-glow lg-glow--white" />
         <div class="dora-sun" />
         <div class="dora-sky-pattern" />
         <span class="dora-cloud dora-cloud--1" />
@@ -276,6 +280,7 @@ onUnmounted(() => {
     linear-gradient(180deg, #020d1c 0%, #04213b 46%, #073357 100%);
 }
 
+.lg-glow,
 .dora-sun,
 .dora-sky-pattern,
 .dora-cloud,
@@ -283,6 +288,50 @@ onUnmounted(() => {
 .dora-town {
   position: absolute;
   pointer-events: none;
+}
+
+/* 柔光：铃铛金、任意门粉和一团白光，玻璃卡片从它们上面滑过时会带出淡淡的色彩 */
+.lg-glow {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: lg-glow-drift 36s ease-in-out infinite alternate;
+}
+
+.lg-glow--gold {
+  top: 4%;
+  right: 8%;
+  width: min(34rem, 70vw);
+  background: radial-gradient(circle, rgb(255 215 0 / 0.42), rgb(255 215 0 / 0) 66%);
+}
+
+.lg-glow--pink {
+  top: 44%;
+  left: 12%;
+  width: min(38rem, 80vw);
+  background: radial-gradient(circle, rgb(242 124 168 / 0.34), rgb(242 124 168 / 0) 66%);
+  animation-duration: 44s;
+  animation-direction: alternate-reverse;
+}
+
+.lg-glow--white {
+  top: 22%;
+  left: 40%;
+  width: min(30rem, 66vw);
+  background: radial-gradient(circle, rgb(255 255 255 / 0.38), rgb(255 255 255 / 0) 66%);
+  animation-duration: 52s;
+}
+
+.dark .lg-glow--gold {
+  background: radial-gradient(circle, rgb(255 215 0 / 0.12), rgb(255 215 0 / 0) 66%);
+}
+
+.dark .lg-glow--pink {
+  background: radial-gradient(circle, rgb(139 92 246 / 0.2), rgb(139 92 246 / 0) 66%);
+}
+
+.dark .lg-glow--white {
+  background: radial-gradient(circle, rgb(0 150 224 / 0.26), rgb(0 150 224 / 0) 66%);
 }
 
 /* 太阳：左上角露出半张脸，光芒缓慢旋转 */
@@ -597,6 +646,12 @@ onUnmounted(() => {
   }
 }
 
+@keyframes lg-glow-drift {
+  to {
+    transform: translate3d(-6vw, 4vh, 0) scale(1.12);
+  }
+}
+
 @keyframes dora-cloud-drift {
   to {
     transform: translate3d(-48px, 6px, 0);
@@ -632,6 +687,7 @@ onUnmounted(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .lg-glow,
   .dora-sun,
   .dora-cloud,
   .dora-flyer,

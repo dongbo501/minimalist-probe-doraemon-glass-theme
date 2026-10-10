@@ -378,44 +378,97 @@ html.legacy-webkit [data-slot='card'] {
   }
 }
 
-/* ===== 节点卡片毛玻璃 — 亮色透出背景 ===== */
-/* ===== 全局卡片毛玻璃（统一首页和详情页） ===== */
+/* ===== iOS 27 液态玻璃材质 ===== */
+/* 卡片和控件的底色跟随主题设置里的配色预设（--glass-*，由 Provider.vue 写入）；
+   顶栏、对话框这类浮层用固定的通透度，再统一叠加高光描边和柔和投影。 */
+:root {
+  --lg-blur: 22px;
+  --lg-saturate: 190%;
+  --lg-radius: 1.45rem;
+  --lg-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --lg-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --lg-fill: var(--glass-light-card, rgb(255 255 255 / 0.58));
+  --lg-fill-hover: var(--glass-light-card-hover, rgb(255 255 255 / 0.66));
+  --lg-fill-control: var(--glass-light-control, rgb(255 255 255 / 0.5));
+  --lg-fill-chrome: rgb(255 255 255 / calc(0.52 * var(--dora-surface-alpha, 1)));
+  --lg-fill-thick: rgb(246 251 255 / calc(0.86 * var(--dora-surface-alpha, 1)));
+  --lg-border: var(--glass-light-border, rgb(255 255 255 / 0.55));
+  --lg-rim: linear-gradient(
+    135deg,
+    rgb(255 255 255 / 0.95) 0%,
+    rgb(255 255 255 / 0.2) 32%,
+    rgb(255 255 255 / 0.06) 58%,
+    rgb(255 255 255 / 0.55) 100%
+  );
+  --lg-highlight:
+    inset 0 1px 0 rgb(255 255 255 / 0.85), inset 0 -1px 0 rgb(255 255 255 / 0.22),
+    inset 0 -22px 30px -26px rgb(255 255 255 / 0.75);
+  --lg-shadow: var(--glass-light-shadow, 0 1px 2px rgb(0 48 96 / 0.08), 0 12px 32px -10px rgb(0 48 96 / 0.35));
+  --lg-shadow-lift: 0 2px 4px rgb(0 48 96 / 0.1), 0 24px 44px -14px rgb(0 48 96 / 0.45);
+}
+
+.dark {
+  --lg-fill: var(--glass-dark-card, rgb(10 44 74 / 0.55));
+  --lg-fill-hover: var(--glass-dark-card-hover, rgb(13 53 88 / 0.65));
+  --lg-fill-control: var(--glass-dark-control, rgb(10 44 74 / 0.5));
+  --lg-fill-chrome: rgb(8 34 60 / calc(0.5 * var(--dora-surface-alpha, 1)));
+  --lg-fill-thick: rgb(8 30 54 / calc(0.86 * var(--dora-surface-alpha, 1)));
+  --lg-border: var(--glass-dark-border, rgb(255 255 255 / 0.14));
+  --lg-rim: linear-gradient(
+    135deg,
+    rgb(255 255 255 / 0.42) 0%,
+    rgb(255 255 255 / 0.08) 32%,
+    rgb(255 255 255 / 0.02) 58%,
+    rgb(165 228 255 / 0.28) 100%
+  );
+  --lg-highlight:
+    inset 0 1px 0 rgb(255 255 255 / 0.2), inset 0 -1px 0 rgb(255 255 255 / 0.05),
+    inset 0 -22px 30px -26px rgb(165 228 255 / 0.25);
+  --lg-shadow: var(--glass-dark-shadow, 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 40px -12px rgb(0 0 0 / 0.6));
+  --lg-shadow-lift: 0 2px 4px rgb(0 0 0 / 0.3), 0 26px 50px -14px rgb(0 0 0 / 0.7);
+}
+
+/* 系统开启「降低透明度」时退回实色表面 */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --lg-fill: #f2f9ff !important;
+    --lg-fill-hover: #f7fbff !important;
+    --lg-fill-control: #eaf5fd !important;
+    --lg-fill-chrome: #f2f9ff !important;
+    --lg-fill-thick: #f7fbff !important;
+  }
+
+  .dark {
+    --lg-fill: #0b2e4d !important;
+    --lg-fill-hover: #0e365a !important;
+    --lg-fill-control: #0b2e4d !important;
+    --lg-fill-chrome: #0a2a47 !important;
+    --lg-fill-thick: #0a2a47 !important;
+  }
+}
 
 .node-card,
 .bg-card,
 [data-slot='card'] {
-  /* Keep the glass effect, but avoid making every card an overly expensive compositing layer. */
-  background-color: var(--glass-light-card, rgb(255 255 255 / 0.94)) !important;
-  border: 1px solid var(--glass-light-border, rgb(226 232 240 / 0.68)) !important;
-  backdrop-filter: blur(14px) saturate(145%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(145%) !important;
-  box-shadow: var(--glass-light-shadow, 0 8px 28px rgb(15 23 42 / 0.18)) !important;
+  border: 1px solid var(--lg-border) !important;
+  background-color: var(--lg-fill) !important;
+  box-shadow: var(--lg-highlight), var(--lg-shadow) !important;
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate)) !important;
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate)) !important;
 }
-
-/* 亮色（晴空）卡片保持接近纯白，保证在哆啦A梦蓝背景上的对比度 */
 
 .node-card:hover,
 .bg-card:hover,
 [data-slot='card']:hover {
-  background-color: var(--glass-light-card-hover, rgb(248 250 252 / 0.8)) !important;
-  box-shadow: var(--glass-light-shadow, 0 12px 38px rgb(15 23 42 / 0.2)) !important;
+  background-color: var(--lg-fill-hover) !important;
 }
 
-/* ===== 暗色模式 ===== */
-
-.dark .node-card,
-.dark .bg-card,
-.dark [data-slot='card'] {
-  /* Dark mode: keep a translucent glass feel while improving foreground contrast */
-  background-color: var(--glass-dark-card, rgb(10 14 22 / 0.82)) !important;
-  border: 1px solid var(--glass-dark-border, rgb(255 255 255 / 0.18)) !important;
-  box-shadow: var(--glass-dark-shadow, 0 8px 30px rgb(0 0 0 / 0.48)) !important;
-}
-
-.dark .node-card:hover,
-.dark .bg-card:hover,
-.dark [data-slot='card']:hover {
-  background-color: var(--glass-dark-card-hover, rgb(10 14 22 / 0.9)) !important;
+/* 对话框：更厚的玻璃，内容密集时也读得清 */
+[role='dialog'].bg-card {
+  border-radius: 1.75rem !important;
+  background-color: var(--lg-fill-thick) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
 }
 
 .node-card,
@@ -494,40 +547,37 @@ html.legacy-webkit [data-slot='card'] {
   color: color-mix(in oklch, var(--glass-dark-text, var(--color-foreground)) 90%, transparent) !important;
 }
 
-/* ===== Header ===== */
 
-header {
-  background-color: var(--glass-light-header, rgb(241 245 249 / 0.76)) !important;
-  backdrop-filter: blur(14px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
-  border-bottom: 1px solid rgb(226 232 240 / 0.58) !important;
-}
-
-.dark header {
-  background-color: var(--glass-dark-header, rgb(10 14 22 / 0.76)) !important;
-  border-bottom: 1px solid rgb(255 255 255 / 0.08) !important;
-}
-
-/* ===== 顶部统计栏 ===== */
+/* ===== 顶部统计栏、筛选条等控件 ===== */
 
 .bg-background {
-  background-color: var(--glass-light-control, rgb(241 245 249 / 0.76)) !important;
-  backdrop-filter: blur(14px) saturate(145%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(145%) !important;
+  background-color: var(--lg-fill-control) !important;
+  backdrop-filter: blur(18px) saturate(var(--lg-saturate)) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(var(--lg-saturate)) !important;
 }
 
-.dark .bg-background {
-  background-color: var(--glass-dark-control, rgb(10 14 22 / 0.76)) !important;
+/* 直接放在天空背景上的控件和列表行：统一成一层控件玻璃 */
+.bg-background\/40,
+.bg-background\/50,
+.bg-background\/60,
+.bg-background\/70 {
+  background-color: var(--lg-fill-control) !important;
+  backdrop-filter: blur(18px) saturate(var(--lg-saturate));
+  -webkit-backdrop-filter: blur(18px) saturate(var(--lg-saturate));
 }
 
-/* ===== 小组件背景 ===== */
+/* ===== 卡片里的小组件：一层更浅的内嵌玻璃 ===== */
 
 .bg-slate-500\/5 {
-  background-color: rgb(255 255 255 / 0.15) !important;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  background: rgb(255 255 255 / 0.3) !important;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7);
 }
 
 .dark .bg-slate-500\/5 {
-  background-color: rgb(255 255 255 / 0.05) !important;
+  border-color: rgb(255 255 255 / 0.08);
+  background: rgb(255 255 255 / 0.05) !important;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
 }
 
 /* Firefox composites many backdrop-filter layers less efficiently than Chromium.
@@ -535,108 +585,122 @@ header {
 @supports (-moz-appearance: none) {
   .node-card,
   .bg-card,
-  [data-slot='card'] {
+  [data-slot='card'],
+  .dora-stat-card {
     background-color: color-mix(
       in srgb,
-      var(--glass-light-card, #f1f5f9) 88%,
-      rgb(226 232 240 / var(--dora-surface-alpha, 1))
+      var(--lg-fill) 35%,
+      rgb(240 248 255 / calc(0.94 * var(--dora-surface-alpha, 1)))
     ) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-  }
-
-  .node-card:hover,
-  .bg-card:hover,
-  [data-slot='card']:hover {
-    background-color: color-mix(
-      in srgb,
-      var(--glass-light-card-hover, #f8fafc) 88%,
-      rgb(226 232 240 / var(--dora-surface-alpha, 1))
-    ) !important;
   }
 
   .dark .node-card,
   .dark .bg-card,
-  .dark [data-slot='card'] {
+  .dark [data-slot='card'],
+  .dark .dora-stat-card {
     background-color: color-mix(
       in srgb,
-      var(--glass-dark-card, #0f0f19) 92%,
-      rgb(0 0 0 / var(--dora-surface-alpha, 1))
+      var(--lg-fill) 35%,
+      rgb(8 34 60 / calc(0.94 * var(--dora-surface-alpha, 1)))
     ) !important;
   }
 
-  .dark .node-card:hover,
-  .dark .bg-card:hover,
-  .dark [data-slot='card']:hover {
-    background-color: color-mix(
-      in srgb,
-      var(--glass-dark-card-hover, #0f0f19) 94%,
-      rgb(0 0 0 / var(--dora-surface-alpha, 1))
-    ) !important;
-  }
-
-  header,
-  .bg-background {
+  .bg-background,
+  .bg-background\/40,
+  .bg-background\/50,
+  .bg-background\/60,
+  .bg-background\/70,
+  .dora-header__bar,
+  [data-slot='tabs-list'],
+  .home-quick-controls {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
 
-  header {
-    background-color: rgb(226 232 240 / calc(0.88 * var(--dora-surface-alpha, 1))) !important;
+  .bg-background,
+  .bg-background\/40,
+  .bg-background\/50,
+  .bg-background\/60,
+  .bg-background\/70,
+  .dora-header__bar {
+    background-color: rgb(240 248 255 / calc(0.9 * var(--dora-surface-alpha, 1))) !important;
   }
 
-  .dark header {
-    background-color: rgb(10 10 20 / calc(0.9 * var(--dora-surface-alpha, 1))) !important;
-  }
-
-  .bg-background {
-    background-color: rgb(226 232 240 / calc(0.84 * var(--dora-surface-alpha, 1))) !important;
-  }
-
-  .dark .bg-background {
-    background-color: rgb(20 20 35 / calc(0.86 * var(--dora-surface-alpha, 1))) !important;
+  .dark .bg-background,
+  .dark .bg-background\/40,
+  .dark .bg-background\/50,
+  .dark .bg-background\/60,
+  .dark .bg-background\/70,
+  .dark .dora-header__bar {
+    background-color: rgb(8 34 60 / calc(0.9 * var(--dora-surface-alpha, 1))) !important;
   }
 }
 
-/* ===== DORAEMON visual language ===== */
+/* ===== DORAEMON × Liquid Glass visual language ===== */
 
-/* 顶栏：悬浮的白色胶囊，底边是红色项圈，正中挂一颗金铃铛 */
+/* 高光描边：一圈左上亮、中段淡、右下回光的渐变细边，模拟玻璃边缘的折射 */
+.node-card::after,
+.dora-stat-card::after,
+.dora-header__bar::before {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--lg-rim);
+  content: '';
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* 顶栏：悬浮的玻璃胶囊，底边一道红项圈，正中挂一颗金铃铛 */
 .dora-header {
   pointer-events: none;
 }
 
-/* 滚动后在胶囊上方铺一层天空色，避免下面的卡片从缝隙里露出来 */
+/* 滚动后在顶栏背后加一层渐隐的模糊（滚动边缘效果），卡片滑到顶栏下面会柔和地虚化 */
 .dora-header--scrolled::before {
   position: absolute;
   z-index: -1;
   top: 0;
   right: 0;
   left: 0;
-  height: 2.4rem;
-  background: linear-gradient(180deg, #5cc8f7 0%, #5cc8f7 42%, rgb(92 200 247 / 0));
+  height: 5.25rem;
+  background: linear-gradient(180deg, rgb(92 200 247 / 0.55), rgb(92 200 247 / 0));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   content: '';
+  mask-image: linear-gradient(180deg, #000 45%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent);
 }
 
 .dark .dora-header--scrolled::before {
-  background: linear-gradient(180deg, #020d1c 0%, #020d1c 42%, rgb(2 13 28 / 0));
+  background: linear-gradient(180deg, rgb(2 13 28 / 0.7), rgb(2 13 28 / 0));
 }
 
 .dora-header__bar {
   position: relative;
-  border: 2px solid #ffffff;
-  border-radius: 1.35rem;
-  background: rgb(255 255 255 / calc(0.93 * var(--dora-surface-alpha, 1)));
+  border: 1px solid var(--lg-border);
+  border-radius: 999px;
+  background: var(--lg-fill-chrome);
   color: var(--dora-ink);
   box-shadow:
-    inset 0 -5px 0 var(--dora-red),
-    0 3px 0 rgb(0 90 150 / 0.2),
-    0 12px 28px rgb(0 60 110 / 0.18);
-  backdrop-filter: blur(12px) saturate(150%);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
+    inset 0 -2.5px 0 rgb(230 0 18 / 0.75),
+    var(--lg-highlight),
+    var(--lg-shadow);
+  backdrop-filter: blur(26px) saturate(var(--lg-saturate));
+  -webkit-backdrop-filter: blur(26px) saturate(var(--lg-saturate));
   pointer-events: auto;
   transition:
-    background-color 200ms ease,
-    box-shadow 200ms ease;
+    background-color 240ms var(--lg-ease),
+    box-shadow 240ms var(--lg-ease),
+    transform 320ms var(--lg-spring);
 }
 
 .dora-header__bar::after {
@@ -647,7 +711,7 @@ header {
   height: 22px;
   background: url('/images/doraemon/bell-charm.svg') center / contain no-repeat;
   content: '';
-  filter: drop-shadow(0 2px 0 rgb(0 60 110 / 0.25));
+  filter: drop-shadow(0 2px 3px rgb(0 60 110 / 0.3));
   transform: translateX(-50%);
   transform-origin: 50% 0;
   animation: dora-bell-swing 4.8s ease-in-out infinite;
@@ -655,51 +719,66 @@ header {
 }
 
 .dora-header__bar--scrolled {
-  background: rgb(255 255 255 / calc(0.98 * var(--dora-surface-alpha, 1)));
+  background: var(--lg-fill-thick);
   box-shadow:
-    inset 0 -5px 0 var(--dora-red),
-    0 3px 0 rgb(0 90 150 / 0.24),
-    0 16px 34px rgb(0 40 80 / 0.28);
+    inset 0 -2.5px 0 rgb(230 0 18 / 0.75),
+    var(--lg-highlight),
+    var(--lg-shadow-lift);
 }
 
 .dark .dora-header__bar {
-  border-color: rgb(76 195 255 / 0.28);
-  background: rgb(6 36 63 / calc(0.9 * var(--dora-surface-alpha, 1)));
   color: #eef8ff;
-  box-shadow:
-    inset 0 -5px 0 var(--dora-red),
-    0 3px 0 rgb(0 0 0 / 0.3),
-    0 12px 30px rgb(0 0 0 / 0.4);
 }
 
-.dark .dora-header__bar--scrolled {
-  background: rgb(6 36 63 / calc(0.97 * var(--dora-surface-alpha, 1)));
-}
-
+/* 顶栏按钮：一颗颗小玻璃珠，按下时像果冻一样回弹 */
 .dora-header__action {
+  border: 1px solid rgb(255 255 255 / 0.5) !important;
   border-radius: 999px !important;
-  background: #e8f6ff;
+  background: rgb(255 255 255 / 0.42);
   color: #0b4f8a;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 2px 8px -2px rgb(0 60 120 / 0.22);
   transition:
-    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    background-color 160ms ease,
-    color 160ms ease;
+    transform 320ms var(--lg-spring),
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
 .dora-header__action:hover {
-  background: var(--dora-blue) !important;
-  color: #ffffff !important;
-  transform: translateY(-1px) rotate(-8deg);
+  background: rgb(255 255 255 / 0.72) !important;
+  color: var(--dora-blue) !important;
+  transform: scale(1.08);
+}
+
+.dora-header__action:active {
+  transform: scale(0.9);
 }
 
 .dora-header__action[aria-pressed='true'] {
-  background: var(--dora-gold) !important;
+  border-color: rgb(255 228 92 / 0.8) !important;
+  background: rgb(255 215 0 / 0.42) !important;
   color: #5a3a00 !important;
 }
 
 .dark .dora-header__action {
-  background: rgb(76 195 255 / 0.12);
+  border-color: rgb(255 255 255 / 0.12) !important;
+  background: rgb(255 255 255 / 0.08);
   color: #a5e4ff;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 2px 8px -2px rgb(0 0 0 / 0.4);
+}
+
+.dark .dora-header__action:hover {
+  background: rgb(255 255 255 / 0.16) !important;
+  color: #ffffff !important;
+}
+
+.dark .dora-header__action[aria-pressed='true'] {
+  border-color: rgb(255 215 0 / 0.35) !important;
+  background: rgb(255 215 0 / 0.18) !important;
+  color: #ffe45c !important;
 }
 
 .dora-brand__mark {
@@ -709,8 +788,8 @@ header {
   flex: none;
   place-items: center;
   border-radius: 999px;
-  filter: drop-shadow(0 3px 0 rgb(0 60 110 / 0.18));
-  transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 4px 6px rgb(0 60 110 / 0.22));
+  transition: transform 320ms var(--lg-spring);
 }
 
 .dora-brand__mark img {
@@ -723,7 +802,7 @@ header {
 }
 
 .dora-brand__mark:active {
-  transform: scale(0.94);
+  transform: scale(0.92);
 }
 
 @keyframes dora-bell-swing {
@@ -763,7 +842,7 @@ header {
 
 .dora-brand__copy small {
   margin-top: 0.18rem;
-  color: #3d5873;
+  color: #2c4763;
   font-size: 0.62rem;
   letter-spacing: 0.08em;
 }
@@ -776,47 +855,40 @@ header {
   position: relative;
 }
 
-/* 卡片基底：白色（夜间为深蓝），粗白描边 + 漫画式硬阴影 */
+/* 卡片基底：液态玻璃 + 大圆角，悬停时轻轻浮起 */
 .dora-stat-card,
 .node-card {
-  border: 2px solid rgb(255 255 255 / 0.95) !important;
-  border-radius: 1.1rem !important;
-  background: var(--glass-light-card, #ffffff) !important;
+  border-radius: var(--lg-radius) !important;
   color: var(--glass-light-text, #0b2540) !important;
-  box-shadow:
-    0 4px 0 rgb(0 90 150 / 0.22),
-    var(--glass-light-shadow, 0 10px 28px rgb(0 60 110 / 0.2)) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  transition:
+    transform 360ms var(--lg-spring),
+    box-shadow 240ms var(--lg-ease),
+    background-color 240ms var(--lg-ease) !important;
+}
+
+.dora-stat-card {
+  border: 1px solid var(--lg-border) !important;
+  background-color: var(--lg-fill) !important;
+  box-shadow: var(--lg-highlight), var(--lg-shadow) !important;
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate)) !important;
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate)) !important;
 }
 
 .dora-stat-card:hover,
 .node-card:hover {
-  border-color: #ffffff !important;
-  background: var(--glass-light-card-hover, #ffffff) !important;
-  box-shadow:
-    0 6px 0 rgb(0 90 150 / 0.24),
-    0 16px 34px rgb(0 60 110 / 0.28) !important;
+  background-color: var(--lg-fill-hover) !important;
+  box-shadow: var(--lg-highlight), var(--lg-shadow-lift) !important;
   transform: translateY(-3px);
+}
+
+.dora-stat-card:active,
+.node-card:active {
+  transform: translateY(-1px) scale(0.985);
 }
 
 .dark .dora-stat-card,
 .dark .node-card {
-  border-color: var(--glass-dark-border, rgb(76 195 255 / 0.25)) !important;
-  background: var(--glass-dark-card, #0a2c4ae6) !important;
   color: var(--glass-dark-text, #eef8ff) !important;
-  box-shadow:
-    0 4px 0 rgb(0 0 0 / 0.3),
-    var(--glass-dark-shadow, 0 10px 32px rgb(0 0 0 / 0.45)) !important;
-}
-
-.dark .dora-stat-card:hover,
-.dark .node-card:hover {
-  border-color: rgb(76 195 255 / 0.55) !important;
-  background: var(--glass-dark-card-hover, #0d3558f0) !important;
-  box-shadow:
-    0 6px 0 rgb(0 0 0 / 0.3),
-    0 0 26px rgb(76 195 255 / 0.2) !important;
 }
 
 /* ===== 概览指标卡：每件道具一种颜色 ===== */
@@ -834,7 +906,7 @@ header {
 [data-general-card-key='monthlyCost'],
 [data-general-card-key='yearlyCost'] {
   --dora-accent: #f2b600;
-  --dora-accent-ink: #9a6b00;
+  --dora-accent-ink: #8a5f00;
 }
 [data-general-card-key='uploadSpeed'],
 [data-general-card-key='uploadPeak'] {
@@ -843,7 +915,7 @@ header {
 }
 [data-general-card-key='disk'] {
   --dora-accent: #f28c28;
-  --dora-accent-ink: #b85c00;
+  --dora-accent-ink: #a85300;
 }
 [data-general-card-key='totalTraffic'],
 [data-general-card-key='trafficWarnings'] {
@@ -853,7 +925,7 @@ header {
 [data-general-card-key='downloadSpeed'],
 [data-general-card-key='downloadPeak'] {
   --dora-accent: #14b8a6;
-  --dora-accent-ink: #0b7f73;
+  --dora-accent-ink: #0b7369;
 }
 [data-general-card-key='offlineNodes'],
 [data-general-card-key='highLoadNodes'],
@@ -866,28 +938,23 @@ header {
   --dora-accent-ink: color-mix(in srgb, var(--dora-accent) 55%, #ffffff);
 }
 
-/* 顶部彩色项圈：画在与卡片同圆角的整块伪元素上，圆角处跟着卡片弯下去 */
+/* 着色玻璃：道具色从左上角透进来，右下角再留一圈淡淡的余光 */
 .dora-stat-card::before {
   position: absolute;
   z-index: 0;
   inset: 0;
-  border-radius: calc(1.1rem - 2px);
+  border-radius: inherit;
   background:
-    radial-gradient(
-      circle at 100% 100%,
-      color-mix(in srgb, var(--dora-accent) 9%, transparent) 0 42%,
-      transparent 42.5%
-    ),
-    linear-gradient(var(--dora-accent) 0 5px, transparent 5px);
-  background-position:
-    right -2.4rem bottom -2.6rem,
-    0 0;
-  background-repeat: no-repeat;
-  background-size:
-    8.5rem 8.5rem,
-    100% 100%;
+    radial-gradient(120% 95% at 0% 0%, color-mix(in srgb, var(--dora-accent) 24%, transparent), transparent 62%),
+    radial-gradient(70% 70% at 100% 100%, color-mix(in srgb, var(--dora-accent) 12%, transparent), transparent 70%);
   content: '';
   pointer-events: none;
+}
+
+.dark .dora-stat-card::before {
+  background:
+    radial-gradient(120% 95% at 0% 0%, color-mix(in srgb, var(--dora-accent) 30%, transparent), transparent 62%),
+    radial-gradient(70% 70% at 100% 100%, color-mix(in srgb, var(--dora-accent) 14%, transparent), transparent 70%);
 }
 
 .dora-stat-card > * {
@@ -903,38 +970,51 @@ header {
   width: 3.4rem;
   height: 3.4rem;
   color: var(--dora-accent);
-  opacity: 0.16;
+  opacity: 0.18;
   pointer-events: none;
   transform: rotate(-12deg);
   transition:
-    transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 360ms var(--lg-spring),
     opacity 200ms ease;
 }
 
 .dora-stat-card:hover .dora-stat-card__mark {
-  opacity: 0.26;
+  opacity: 0.28;
   transform: rotate(0deg) scale(1.08);
 }
 
+/* 图标徽章：一颗带道具色的小玻璃珠 */
 .dora-stat-card__icon {
   display: grid;
   width: 1.9rem;
   height: 1.9rem;
   flex: none;
   place-items: center;
+  border: 1px solid rgb(255 255 255 / 0.6);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--dora-accent) 14%, transparent);
+  background: color-mix(in srgb, var(--dora-accent) 18%, rgb(255 255 255 / 0.55));
   color: var(--dora-accent-ink);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 3px 8px -2px color-mix(in srgb, var(--dora-accent) 45%, transparent);
   transition:
-    transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    background-color 160ms ease,
-    color 160ms ease;
+    transform 320ms var(--lg-spring),
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.dark .dora-stat-card__icon {
+  border-color: rgb(255 255 255 / 0.14);
+  background: color-mix(in srgb, var(--dora-accent) 26%, rgb(255 255 255 / 0.06));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.2),
+    0 3px 10px -2px color-mix(in srgb, var(--dora-accent) 40%, transparent);
 }
 
 .dora-stat-card:hover .dora-stat-card__icon {
   background: var(--dora-accent);
   color: #ffffff;
-  transform: rotate(-12deg) scale(1.08);
+  transform: rotate(-12deg) scale(1.1);
 }
 
 .dora-stat-card__label {
@@ -970,16 +1050,18 @@ header {
   }
 }
 
-/* ===== 节点卡片：蓝色的头 → 红项圈 + 金铃铛 → 白肚皮 ===== */
+/* ===== 节点卡片：蓝色玻璃的头 → 红项圈 + 金铃铛 → 通透的白肚皮 ===== */
 .node-card .dora-node-head {
   position: relative;
   z-index: 2;
   margin-bottom: 0.95rem;
   padding-bottom: 0.8rem;
   background:
-    radial-gradient(ellipse 60% 120% at 12% 0%, rgb(255 255 255 / 0.22), transparent 60%),
-    linear-gradient(180deg, #28b2f3 0%, #0092dc 100%);
-  box-shadow: inset 0 -6px 0 var(--dora-red);
+    linear-gradient(180deg, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0) 55%),
+    linear-gradient(180deg, rgb(32 176 244 / 0.84) 0%, rgb(0 132 208 / 0.9) 100%);
+  box-shadow:
+    inset 0 -3px 0 rgb(230 0 18 / 0.9),
+    inset 0 1px 0 rgb(255 255 255 / 0.45);
   color: #ffffff !important;
 }
 
@@ -991,7 +1073,7 @@ header {
   height: 17px;
   background: url('/images/doraemon/bell-charm.svg') center / contain no-repeat;
   content: '';
-  filter: drop-shadow(0 1.5px 0 rgb(0 60 110 / 0.22));
+  filter: drop-shadow(0 1.5px 2px rgb(0 60 110 / 0.3));
   transform: translateX(-50%);
   transform-origin: 50% 0;
   pointer-events: none;
@@ -1003,24 +1085,28 @@ header {
 
 .node-card .dora-node-head--sleeping {
   background:
-    radial-gradient(ellipse 60% 120% at 12% 0%, rgb(255 255 255 / 0.18), transparent 60%),
-    linear-gradient(180deg, #9db0c2 0%, #7d91a5 100%);
-  box-shadow: inset 0 -6px 0 #b0626a;
+    linear-gradient(180deg, rgb(255 255 255 / 0.24), rgb(255 255 255 / 0) 55%),
+    linear-gradient(180deg, rgb(150 170 190 / 0.82) 0%, rgb(118 138 158 / 0.88) 100%);
+  box-shadow:
+    inset 0 -3px 0 rgb(176 98 106 / 0.85),
+    inset 0 1px 0 rgb(255 255 255 / 0.35);
 }
 
 .dark .node-card .dora-node-head {
   background:
-    radial-gradient(ellipse 60% 120% at 12% 0%, rgb(76 195 255 / 0.2), transparent 60%),
-    linear-gradient(180deg, #0e6aa8 0%, #0a4b80 100%);
+    linear-gradient(180deg, rgb(165 228 255 / 0.16), rgb(165 228 255 / 0) 55%),
+    linear-gradient(180deg, rgb(14 106 168 / 0.72) 0%, rgb(10 75 128 / 0.78) 100%);
 }
 
 .dark .node-card .dora-node-head--sleeping {
-  background: linear-gradient(180deg, #3a4d60 0%, #2a3a4b 100%);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0) 55%),
+    linear-gradient(180deg, rgb(58 77 96 / 0.75) 0%, rgb(42 58 75 / 0.8) 100%);
 }
 
 .node-card .dora-node-head .text-muted-foreground,
 .dark .node-card .dora-node-head .text-muted-foreground {
-  color: rgb(255 255 255 / 0.78) !important;
+  color: rgb(255 255 255 / 0.82) !important;
 }
 
 .node-card .dora-node-head .text-muted-foreground:hover,
@@ -1053,34 +1139,25 @@ header {
   letter-spacing: 0.06em;
 }
 
-.bg-slate-500\/5 {
-  border: 1px solid rgb(0 150 224 / 0.12);
-  background: rgb(0 150 224 / 0.06) !important;
-}
-
-.dark .bg-slate-500\/5 {
-  border-color: rgb(76 195 255 / 0.12);
-  background: rgb(76 195 255 / 0.06) !important;
-}
-
-/* 指标强调色：蓝（主体）/ 红（口袋·鼻子）/ 金（铃铛·竹蜻蜓）/ 粉（任意门） */
+/* 指标强调色：蓝（主体）/ 红（口袋·鼻子）/ 金（铃铛·竹蜻蜓）/ 粉（任意门）
+   玻璃底色比原来的白卡更透，亮色模式下统一压深一档保证对比度 */
 .text-success {
-  color: #0079bf !important;
+  color: #006eae !important;
 }
 .text-blue-600 {
   color: #0b4f8a !important;
 }
 .text-violet-500 {
-  color: #d6457f !important;
+  color: #c2366f !important;
 }
 .text-emerald-500 {
-  color: #e60012 !important;
+  color: #d10010 !important;
 }
 .text-orange-500 {
-  color: #a87800 !important;
+  color: #8f6600 !important;
 }
 .text-sky-500 {
-  color: #0096e0 !important;
+  color: #0080c4 !important;
 }
 
 .dark .text-success {
@@ -1103,16 +1180,7 @@ header {
 }
 
 :root:not(.dark) .text-muted-foreground {
-  color: var(--glass-light-muted-text, #3d5873) !important;
-}
-
-/* 筛选条、列表行等直接放在蓝色背景上的控件：统一为不透明白色，保证文字对比度 */
-:root:not(.dark) .bg-background,
-:root:not(.dark) .bg-background\/40,
-:root:not(.dark) .bg-background\/50,
-:root:not(.dark) .bg-background\/60,
-:root:not(.dark) .bg-background\/70 {
-  background-color: rgb(255 255 255 / var(--dora-surface-alpha, 1)) !important;
+  color: var(--glass-light-muted-text, #2c4763) !important;
 }
 
 @media (max-width: 640px) {
@@ -1130,16 +1198,13 @@ header {
 @media (prefers-reduced-motion: reduce) {
   .dora-stat-card:hover,
   .node-card:hover,
-  .dora-brand__mark:hover {
+  .dora-stat-card:active,
+  .node-card:active,
+  .dora-brand__mark:hover,
+  .dora-header__action:hover,
+  .dora-header__action:active {
     transform: none;
   }
-}
-
-.dark .bg-background\/40,
-.dark .bg-background\/50,
-.dark .bg-background\/60,
-.dark .bg-background\/70 {
-  background-color: rgb(10 44 74 / 0.92) !important;
 }
 
 /* ===== 页面画布与滚动条 ===== */
@@ -1155,72 +1220,79 @@ html.dark {
   scrollbar-color: rgb(76 195 255 / 0.45) transparent;
 }
 
-/* ===== 标签页：选中项是一颗哆啦A梦蓝的小胶囊 ===== */
+/* ===== 标签页：玻璃轨道 + 一颗会滑动的玻璃透镜 ===== */
+[data-slot='tabs-list'],
+.home-quick-controls {
+  border: 1px solid var(--lg-border) !important;
+  border-radius: 999px !important;
+  background-color: var(--lg-fill-control) !important;
+  box-shadow: var(--lg-highlight), var(--lg-shadow) !important;
+  backdrop-filter: blur(18px) saturate(var(--lg-saturate)) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(var(--lg-saturate)) !important;
+}
+
+[data-slot='tabs-trigger'],
+.home-quick-control {
+  border-radius: 999px !important;
+  transition:
+    background-color 220ms var(--lg-ease),
+    color 180ms ease,
+    box-shadow 220ms var(--lg-ease),
+    transform 320ms var(--lg-spring) !important;
+}
+
+[data-slot='tabs-trigger']:active,
+.home-quick-control:active {
+  transform: scale(0.94);
+}
+
 [data-slot='tabs-trigger'][data-state='active'] {
-  background: var(--dora-blue) !important;
-  color: #ffffff !important;
-  box-shadow: 0 2px 0 var(--dora-blue-deep) !important;
+  border-color: rgb(255 255 255 / 0.85) !important;
+  background: rgb(255 255 255 / 0.82) !important;
+  color: var(--dora-blue-deep) !important;
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 1px 2px rgb(0 48 96 / 0.12),
+    0 6px 14px -6px rgb(0 60 120 / 0.4) !important;
 }
 
 .dark [data-slot='tabs-trigger'][data-state='active'] {
-  background: #0e6aa8 !important;
-  box-shadow: 0 2px 0 #06406b !important;
+  border-color: rgb(255 255 255 / 0.16) !important;
+  background: rgb(255 255 255 / 0.16) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.22),
+    0 6px 14px -6px rgb(0 0 0 / 0.55) !important;
 }
 
-[data-slot='tabs-list'] {
-  border-radius: 0.8rem !important;
-  box-shadow: 0 3px 0 rgb(0 90 150 / 0.18);
-}
-
-[data-slot='tabs-trigger'] {
-  border-radius: 0.6rem !important;
-}
-
-/* 首页快捷筛选：选中项是铃铛金 */
-.home-quick-controls {
-  border-radius: 0.8rem !important;
-  box-shadow: 0 3px 0 rgb(0 90 150 / 0.18);
-}
-
-.home-quick-control {
-  border-radius: 0.6rem !important;
-}
-
+/* 首页快捷筛选：选中项是一颗铃铛金的玻璃透镜 */
 .home-quick-control.is-active {
-  background: #fff3b0 !important;
-  color: #6b4f00 !important;
-  box-shadow: inset 0 0 0 1.5px rgb(217 164 0 / 0.55) !important;
+  background: rgb(255 215 0 / 0.38) !important;
+  color: #5a4200 !important;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.85),
+    inset 0 0 0 1px rgb(217 164 0 / 0.45),
+    0 6px 14px -6px rgb(179 134 0 / 0.5) !important;
 }
 
 .dark .home-quick-control.is-active {
-  background: rgb(255 215 0 / 0.16) !important;
+  background: rgb(255 215 0 / 0.18) !important;
   color: #ffe45c !important;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    inset 0 0 0 1px rgb(255 215 0 / 0.3) !important;
 }
 
 /* ===== 详情页与通用卡片：圆角加大，和首页卡片统一 ===== */
 [data-slot='card'],
 .instance-detail .text-card-foreground {
-  border-radius: 1.1rem !important;
-}
-
-.instance-detail .text-card-foreground {
-  border: 2px solid rgb(255 255 255 / 0.95) !important;
-  box-shadow:
-    0 4px 0 rgb(0 90 150 / 0.2),
-    0 10px 26px rgb(0 60 110 / 0.18) !important;
-}
-
-.dark .instance-detail .text-card-foreground {
-  border-color: var(--glass-dark-border, rgb(76 195 255 / 0.25)) !important;
-  box-shadow:
-    0 4px 0 rgb(0 0 0 / 0.3),
-    0 10px 30px rgb(0 0 0 / 0.4) !important;
+  border-radius: var(--lg-radius) !important;
 }
 
 /* 详情页概览卡：按顺序轮换道具色 */
 .dora-detail-stat:nth-child(6n + 1) {
   --dora-accent: #f2b600;
-  --dora-accent-ink: #9a6b00;
+  --dora-accent-ink: #8a5f00;
 }
 .dora-detail-stat:nth-child(6n + 2) {
   --dora-accent: #e60012;
@@ -1228,7 +1300,7 @@ html.dark {
 }
 .dora-detail-stat:nth-child(6n + 3) {
   --dora-accent: #14b8a6;
-  --dora-accent-ink: #0b7f73;
+  --dora-accent-ink: #0b7369;
 }
 .dora-detail-stat:nth-child(6n + 4) {
   --dora-accent: #f06595;
@@ -1240,7 +1312,7 @@ html.dark {
 }
 .dora-detail-stat:nth-child(6n + 6) {
   --dora-accent: #f28c28;
-  --dora-accent-ink: #b85c00;
+  --dora-accent-ink: #a85300;
 }
 
 /* 详情页分区标题前挂一颗小铃铛 */
