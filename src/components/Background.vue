@@ -144,6 +144,10 @@ onUnmounted(() => {
         <span class="dora-cloud dora-cloud--2" />
         <span class="dora-cloud dora-cloud--3" />
         <span class="dora-cloud dora-cloud--4" />
+        <!-- 玻璃卡片后面的几朵云：清透玻璃要有景物可看 -->
+        <span class="dora-cloud dora-cloud--5" />
+        <span class="dora-cloud dora-cloud--6" />
+        <span class="dora-cloud dora-cloud--7" />
         <span class="dora-flyer"><i /></span>
 
         <!-- 大雄家附近的小镇：房子、电线杆、空地上的三根水泥管 -->
@@ -439,9 +443,41 @@ onUnmounted(() => {
   animation-duration: 58s;
 }
 
+.dora-cloud--5 {
+  top: 34%;
+  left: 24%;
+  width: 12rem;
+  opacity: 0.9;
+  animation-duration: 48s;
+}
+
+.dora-cloud--6 {
+  top: 68%;
+  left: 52%;
+  width: 15rem;
+  opacity: 0.85;
+  animation-duration: 56s;
+  animation-direction: alternate-reverse;
+}
+
+.dora-cloud--7 {
+  top: 18%;
+  left: 60%;
+  width: 9.5rem;
+  opacity: 0.9;
+  animation-duration: 44s;
+}
+
 .dark .dora-cloud {
   opacity: 0.07;
   filter: none;
+}
+
+/* 夜里中间这几朵云稍亮一点，透过玻璃能看出轮廓 */
+.dark .dora-cloud--5,
+.dark .dora-cloud--6,
+.dark .dora-cloud--7 {
+  opacity: 0.16;
 }
 
 /* 哆啦A梦戴着竹蜻蜓，从天空里慢慢飞过 */
@@ -627,6 +663,15 @@ onUnmounted(() => {
   .dora-cloud--2,
   .dora-cloud--4 {
     width: 6.5rem;
+  }
+
+  .dora-cloud--5,
+  .dora-cloud--6 {
+    width: 7.5rem;
+  }
+
+  .dora-cloud--7 {
+    width: 6rem;
   }
 
   .dora-flyer {

@@ -388,8 +388,8 @@ const identityIcon = computed(() => appStore.privateFeaturesAllowed ? 'tabler:cr
   border: 1px solid var(--lg-border);
   background: var(--lg-fill-chrome);
   box-shadow: var(--lg-highlight), var(--lg-shadow);
-  backdrop-filter: blur(26px) saturate(var(--lg-saturate));
-  -webkit-backdrop-filter: blur(26px) saturate(var(--lg-saturate));
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
 }
 
 /* 详情卡顶部保留一道红项圈 */
