@@ -302,14 +302,14 @@ onUnmounted(() => {
   top: 4%;
   right: 8%;
   width: min(34rem, 70vw);
-  background: radial-gradient(circle, rgb(255 215 0 / 0.42), rgb(255 215 0 / 0) 66%);
+  background: radial-gradient(circle, rgb(255 215 0 / 0.6), rgb(255 215 0 / 0) 66%);
 }
 
 .lg-glow--pink {
   top: 44%;
   left: 12%;
   width: min(38rem, 80vw);
-  background: radial-gradient(circle, rgb(242 124 168 / 0.34), rgb(242 124 168 / 0) 66%);
+  background: radial-gradient(circle, rgb(242 124 168 / 0.5), rgb(242 124 168 / 0) 66%);
   animation-duration: 44s;
   animation-direction: alternate-reverse;
 }
@@ -327,11 +327,11 @@ onUnmounted(() => {
 }
 
 .dark .lg-glow--pink {
-  background: radial-gradient(circle, rgb(139 92 246 / 0.2), rgb(139 92 246 / 0) 66%);
+  background: radial-gradient(circle, rgb(139 92 246 / 0.3), rgb(139 92 246 / 0) 66%);
 }
 
 .dark .lg-glow--white {
-  background: radial-gradient(circle, rgb(0 150 224 / 0.26), rgb(0 150 224 / 0) 66%);
+  background: radial-gradient(circle, rgb(0 150 224 / 0.36), rgb(0 150 224 / 0) 66%);
 }
 
 /* 太阳：左上角露出半张脸，光芒缓慢旋转 */

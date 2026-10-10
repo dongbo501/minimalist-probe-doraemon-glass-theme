@@ -237,9 +237,10 @@ onMounted(async () => {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  /* 底色交给外层的玻璃舞台，这里只叠一层很淡的天光 */
   background:
-    radial-gradient(circle at 76% 34%, rgb(255 255 255 / 0.9), transparent 42%),
-    linear-gradient(180deg, #f3fbff 0%, #dff3ff 100%);
+    radial-gradient(circle at 76% 34%, rgb(255 255 255 / 0.5), transparent 42%),
+    linear-gradient(180deg, rgb(243 251 255 / 0.3) 0%, rgb(223 243 255 / 0.18) 100%);
 }
 
 .door-map__heading {
@@ -383,7 +384,7 @@ onMounted(async () => {
 :global(.dark .door-map) {
   background:
     radial-gradient(circle at 76% 34%, rgb(0 150 224 / 0.22), transparent 42%),
-    linear-gradient(180deg, #06243f 0%, #041a30 100%);
+    linear-gradient(180deg, rgb(6 36 63 / 0.3) 0%, rgb(4 26 48 / 0.2) 100%);
 }
 
 :global(.dark .door-map__heading),

@@ -680,8 +680,10 @@ const nodeCardGridClass = computed(() => {
   }
 }
 
+/* 用 backwards 而不是 both：动画结束后必须完全释放，
+   否则 Chromium 会把整个首页当成独立的 backdrop 根，里面所有玻璃卡片都模糊不到背景 */
 .home-view--motion {
-  animation: home-view-enter 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: home-view-enter 300ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 @keyframes home-view-enter {
