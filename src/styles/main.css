@@ -500,8 +500,27 @@ html.legacy-webkit [data-slot='card'] {
     0 0 8px rgb(0 12 28 / 0.6);
 }
 
+/* truncate 会把超出文字框的部分裁掉，大范围光晕会被裁成一块白色矩形（概览卡的大号数字最明显），
+   这类文字只留一圈贴着字形的细光晕 */
+.dora-stat-card__value,
+.dora-stat-card .truncate,
+.node-card .truncate,
+.bg-card .truncate,
+[data-slot='card'] .truncate {
+  text-shadow: 0 0 2px rgb(255 255 255 / 0.75);
+}
+
+.dark .dora-stat-card__value,
+.dark .dora-stat-card .truncate,
+.dark .node-card .truncate,
+.dark .bg-card .truncate,
+.dark [data-slot='card'] .truncate {
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+}
+
 /* 白字的节点卡头部和选中的标签不需要白色光晕 */
-.node-card .dora-node-head {
+.node-card .dora-node-head,
+.node-card .dora-node-head .truncate {
   text-shadow: 0 1px 2px rgb(0 40 80 / 0.5);
 }
 
