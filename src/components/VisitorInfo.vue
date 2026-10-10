@@ -394,9 +394,7 @@ const identityIcon = computed(() => appStore.privateFeaturesAllowed ? 'tabler:cr
 
 /* 详情卡顶部保留一道红项圈 */
 .visitor-info-card {
-  background:
-    linear-gradient(rgb(230 0 18 / 0.8) 0 3px, transparent 3px),
-    var(--lg-fill-thick);
+  background: linear-gradient(rgb(230 0 18 / 0.8) 0 3px, transparent 3px), var(--lg-fill-thick);
 }
 
 /* 头像：哆啦A梦蓝底 + 白色面庞 + 红鼻子的抽象圆 */

@@ -25,7 +25,7 @@ const buildGitHash = __BUILD_GIT_HASH__
           :content="`v${buildVersion}\n${buildGitHash}`"
         >
           <a
-            href="https://github.com/dongbo501/minimalist-probe-doraemon-theme" target="_blank" rel="noopener noreferrer"
+            href="https://github.com/dongbo501/minimalist-probe-doraemon-glass-theme" target="_blank" rel="noopener noreferrer"
             class="transition-opacity hover:opacity-80"
           >
             <span class="font-semibold text-white underline decoration-[#ffd700] decoration-2 underline-offset-2">Doraemon Edition</span>

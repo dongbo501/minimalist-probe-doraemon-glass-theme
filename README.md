@@ -1,6 +1,8 @@
-# 🔔 哆啦A梦探针 · Doraemon Probe
+# 🔔 哆啦A梦探针 · Liquid Glass
 
 > 一套给[极简探针 Monitor](https://github.com/monitor-probe/monitor) 用的哆啦A梦主题。服务器是一件件神奇道具，监控面板就是 22 世纪的道具监控站。
+>
+> 这是 [哆啦A梦探针](https://github.com/dongbo501/minimalist-probe-doraemon-theme) 的 **iOS 27 液态玻璃**版本，主题标识是 `doraemon-glass`，可以和原版同时安装。下面的截图暂时还是原版外观。
 
 <p align="center">
   <img src="docs/screenshots/home-light.png" alt="晴空模式首页" width="100%">
@@ -52,11 +54,11 @@
 
 ## 📦 安装
 
-1. 从 [Releases](https://github.com/dongbo501/minimalist-probe-doraemon-theme/releases/latest) 下载 `theme.tar.gz`，或者按下文自行构建。
+1. 从 [Releases](https://github.com/dongbo501/minimalist-probe-doraemon-glass-theme/releases/latest) 下载 `theme.tar.gz`，或者按下文自行构建。
 2. 两种方式任选其一：
    - 在 hub 面板的「主题」页上传 `theme.tar.gz`；
-   - 或者在 hub 的 `--themes` 目录（一键脚本部署的路径是 `/opt/monitor/data/themes/`）下新建 `doraemon/` 目录，把 `theme.tar.gz` 解压进去。
-3. 在主题页选中 **Doraemon Probe**，点卡片上的设置按钮就能打开主题设置。
+   - 或者在 hub 的 `--themes` 目录（一键脚本部署的路径是 `/opt/monitor/data/themes/`）下新建 `doraemon-glass/` 目录，把 `theme.tar.gz` 解压进去。
+3. 在主题页选中 **Doraemon Probe · Liquid Glass**，点卡片上的设置按钮就能打开主题设置。
 
 `theme.json` 的 `url` 指向本仓库，面板上的「从 GitHub 更新」会从最新 release 下载 `theme.tar.gz`。
 
@@ -92,7 +94,7 @@ theme.tar.gz
 
 前面有按路径放行的反向代理或 WAF 时，请放行 `/instance/` 前缀；使用 WebSocket 时还要放行 `/api/ws` 的升级请求。
 
-主题只读取 hub 的公开接口，全部是同源请求：`GET /api/me`、`GET /api/nodes`、`GET /api/ws`、`GET /api/nodes/{id}/metrics`、`GET /api/themes/doraemon/config`。
+主题只读取 hub 的公开接口，全部是同源请求：`GET /api/me`、`GET /api/nodes`、`GET /api/ws`、`GET /api/nodes/{id}/metrics`、`GET /api/themes/doraemon-glass/config`。
 
 ## 🛠️ 本地开发
 
