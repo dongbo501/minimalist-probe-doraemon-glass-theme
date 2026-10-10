@@ -405,67 +405,86 @@ onUnmounted(() => {
 }
 
 /* 漫画风白云 */
+/* 漫画风白云：从左往右慢慢飘过整片天空，一边飘一边轻轻上下浮动。
+   每朵云速度不同；负的 animation-delay 让刷新页面时云已经散落在各自的位置上，
+   --cloud-x 是同一个位置在「减少动态效果」时的静止坐标。 */
 .dora-cloud {
+  left: 0;
   display: block;
   aspect-ratio: 200 / 104;
   background: url('/images/doraemon/cloud.svg') center / contain no-repeat;
   filter: drop-shadow(0 8px 0 rgb(0 90 150 / 0.1));
-  animation: dora-cloud-drift 40s ease-in-out infinite alternate;
+  animation:
+    dora-cloud-float var(--cloud-duration, 110s) linear var(--cloud-delay, 0s) infinite,
+    dora-cloud-bob var(--cloud-bob, 6s) ease-in-out infinite alternate;
 }
 
 .dora-cloud--1 {
+  --cloud-x: 0.03;
+  --cloud-duration: 110s;
+  --cloud-delay: -14s;
+  --cloud-bob: 6.5s;
   top: 11%;
-  left: 3%;
   width: 13rem;
 }
 
 .dora-cloud--2 {
+  --cloud-x: 0.86;
+  --cloud-duration: 95s;
+  --cloud-delay: -85s;
+  --cloud-bob: 5.2s;
   top: 26%;
-  right: 2%;
   width: 10rem;
-  animation-duration: 52s;
-  animation-direction: alternate-reverse;
 }
 
 .dora-cloud--3 {
+  --cloud-x: -0.02;
+  --cloud-duration: 125s;
+  --cloud-delay: -10s;
+  --cloud-bob: 7.4s;
   top: 52%;
-  left: -2%;
   width: 8rem;
   opacity: 0.85;
-  animation-duration: 46s;
 }
 
 .dora-cloud--4 {
+  --cloud-x: 0.88;
+  --cloud-duration: 118s;
+  --cloud-delay: -107s;
+  --cloud-bob: 6s;
   top: 62%;
-  right: -1%;
   width: 11rem;
   opacity: 0.8;
-  animation-duration: 58s;
 }
 
 .dora-cloud--5 {
+  --cloud-x: 0.24;
+  --cloud-duration: 100s;
+  --cloud-delay: -32s;
+  --cloud-bob: 5.6s;
   top: 34%;
-  left: 24%;
   width: 12rem;
   opacity: 0.9;
-  animation-duration: 48s;
 }
 
 .dora-cloud--6 {
+  --cloud-x: 0.52;
+  --cloud-duration: 112s;
+  --cloud-delay: -64s;
+  --cloud-bob: 8s;
   top: 68%;
-  left: 52%;
   width: 15rem;
   opacity: 0.85;
-  animation-duration: 56s;
-  animation-direction: alternate-reverse;
 }
 
 .dora-cloud--7 {
+  --cloud-x: 0.6;
+  --cloud-duration: 90s;
+  --cloud-delay: -58s;
+  --cloud-bob: 4.8s;
   top: 18%;
-  left: 60%;
   width: 9.5rem;
   opacity: 0.9;
-  animation-duration: 44s;
 }
 
 .dark .dora-cloud {
@@ -697,9 +716,21 @@ onUnmounted(() => {
   }
 }
 
-@keyframes dora-cloud-drift {
+@keyframes dora-cloud-float {
+  from {
+    transform: translate3d(-100%, 0, 0);
+  }
   to {
-    transform: translate3d(-48px, 6px, 0);
+    transform: translate3d(100vw, 0, 0);
+  }
+}
+
+@keyframes dora-cloud-bob {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -10px;
   }
 }
 
@@ -742,6 +773,9 @@ onUnmounted(() => {
   }
   .dora-flyer {
     display: none;
+  }
+  .dora-cloud {
+    transform: translate3d(calc(var(--cloud-x, 0) * 100vw), 0, 0);
   }
 }
 
