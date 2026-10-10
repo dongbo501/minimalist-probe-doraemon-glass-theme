@@ -224,6 +224,79 @@ onUnmounted(() => {
           </defs>
           <rect width="100%" height="100%" fill="url(#dora-town-tile)" />
         </svg>
+
+        <!-- 水泥管旁边的空地上：大雄和静香在玩抛球。坐标和小镇图案的第一块（1200px）对齐 -->
+        <svg class="dora-kids" width="1200" height="220" viewBox="0 0 1200 220" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(518 204) scale(0.68) translate(-518 -204)">
+            <!-- 大雄：黄上衣、藏青短裤、圆眼镜，面朝右 -->
+            <g class="kid kid--nobita">
+              <ellipse class="k-shoe-n" cx="472" cy="203" rx="4.5" ry="2.2" />
+              <ellipse class="k-shoe-n" cx="485" cy="203" rx="4.5" ry="2.2" />
+              <rect class="k-skin" x="470" y="189" width="4" height="13" />
+              <rect class="k-skin" x="483" y="189" width="4" height="13" />
+              <rect class="k-shorts" x="467" y="181" width="23" height="10" rx="2" />
+              <g class="kid__arm kid__arm--back">
+                <rect class="k-shirt" x="463" y="166" width="5" height="10" rx="2.5" />
+                <circle class="k-skin" cx="465.5" cy="178" r="2.6" />
+              </g>
+              <rect class="k-shirt" x="466" y="163" width="25" height="21" rx="6" />
+              <g class="kid__arm kid__arm--front">
+                <rect class="k-shirt" x="488" y="166" width="5" height="10" rx="2.5" />
+                <circle class="k-skin" cx="490.5" cy="178" r="2.6" />
+              </g>
+              <circle class="k-skin" cx="478" cy="151" r="11" />
+              <path class="k-hair" d="M467 151q-1-13 11-13t11 13q-2-6-6-7q-2 2-5 1q-3 2-6 0q-4 2-5 6z" />
+              <g class="k-glasses">
+                <circle cx="474.5" cy="152.5" r="3.4" />
+                <circle cx="482.5" cy="152.5" r="3.4" />
+                <path d="M477.9 152.5h1.2" />
+              </g>
+              <circle class="k-eye" cx="475" cy="152.8" r="1" />
+              <circle class="k-eye" cx="483" cy="152.8" r="1" />
+              <path class="k-mouth" d="M476 158q2 1.8 4.4 0" />
+            </g>
+
+            <!-- 静香：粉色连衣裙、两根小辫子，面朝左 -->
+            <g class="kid kid--shizuka">
+              <ellipse class="k-shoe-s" cx="552" cy="203" rx="4.5" ry="2.2" />
+              <ellipse class="k-shoe-s" cx="564" cy="203" rx="4.5" ry="2.2" />
+              <rect class="k-skin" x="550" y="189" width="4" height="13" />
+              <rect class="k-skin" x="562" y="189" width="4" height="13" />
+              <g class="kid__arm kid__arm--back">
+                <rect class="k-dress" x="569" y="166" width="5" height="10" rx="2.5" />
+                <circle class="k-skin" cx="571.5" cy="178" r="2.6" />
+              </g>
+              <path class="k-dress" d="M550 163h16q4 0 5 4l3 23h-32l3-23q1-4 5-4z" />
+              <g class="kid__arm kid__arm--front">
+                <rect class="k-dress" x="542" y="166" width="5" height="10" rx="2.5" />
+                <circle class="k-skin" cx="544.5" cy="178" r="2.6" />
+              </g>
+              <g class="kid__tail kid__tail--left">
+                <ellipse class="k-hair" cx="545.5" cy="158" rx="3.2" ry="5.5" />
+                <circle class="k-tie" cx="546" cy="152.6" r="1.7" />
+              </g>
+              <g class="kid__tail kid__tail--right">
+                <ellipse class="k-hair" cx="570.5" cy="158" rx="3.2" ry="5.5" />
+                <circle class="k-tie" cx="570" cy="152.6" r="1.7" />
+              </g>
+              <circle class="k-skin" cx="558" cy="151" r="11" />
+              <path class="k-hair" d="M547 151q-1-13 11-13t11 13q-2-5-5-6q-3 3-6 1q-3 2-6 0q-4 1-5 5z" />
+              <circle class="k-eye" cx="554.5" cy="152.5" r="1.2" />
+              <circle class="k-eye" cx="561.5" cy="152.5" r="1.2" />
+              <circle class="k-blush" cx="552" cy="156" r="1.8" />
+              <circle class="k-blush" cx="564" cy="156" r="1.8" />
+              <path class="k-mouth" d="M556 157.8q2 1.8 4 0" />
+            </g>
+
+            <!-- 球：横向匀速，纵向每一程画一道抛物线 -->
+            <g class="kid-ball">
+              <g class="kid-ball__arc">
+                <circle class="k-ball" cx="494" cy="168" r="5" />
+                <path class="k-ball-stripe" d="M489.2 166.6q4.8 3 9.6 0" />
+              </g>
+            </g>
+          </g>
+        </svg>
       </div>
     </Transition>
     <Transition name="fade">
@@ -289,7 +362,8 @@ onUnmounted(() => {
 .dora-sky-pattern,
 .dora-cloud,
 .dora-flyer,
-.dora-town {
+.dora-town,
+.dora-kids {
   position: absolute;
   pointer-events: none;
 }
@@ -665,6 +739,11 @@ onUnmounted(() => {
     transform-origin: left bottom;
   }
 
+  .dora-kids {
+    transform: scale(0.62);
+    transform-origin: left bottom;
+  }
+
   .dora-sun {
     top: -18rem;
     left: -16rem;
@@ -695,6 +774,218 @@ onUnmounted(() => {
 
   .dora-flyer {
     width: 3.2rem;
+  }
+}
+
+/* 空地上抛球的大雄和静香：3.2 秒一个来回，球飞到谁那边，谁就举手去接、轻轻一跳 */
+.dora-kids {
+  bottom: 0;
+  left: 0;
+  overflow: visible;
+}
+
+.k-skin {
+  fill: #ffdcbc;
+}
+.k-hair {
+  fill: #1d1d24;
+}
+.k-shirt {
+  fill: #ffd23f;
+}
+.k-shorts {
+  fill: #26418f;
+}
+.k-shoe-n {
+  fill: #6b4226;
+}
+.k-dress {
+  fill: #ff8fb3;
+}
+.k-shoe-s {
+  fill: #e0405a;
+}
+.k-tie {
+  fill: #e0405a;
+}
+.k-eye {
+  fill: #1d1d24;
+}
+.k-blush {
+  fill: #ff9aa8;
+  opacity: 0.7;
+}
+.k-mouth,
+.k-glasses {
+  fill: none;
+  stroke: #1d1d24;
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+.k-glasses circle {
+  fill: rgb(255 255 255 / 0.35);
+}
+.k-ball {
+  fill: #ff4d5a;
+  stroke: #ffffff;
+  stroke-width: 1;
+}
+.k-ball-stripe {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 1.4;
+}
+
+.kid,
+.kid__arm,
+.kid__tail {
+  transform-box: fill-box;
+}
+
+.kid {
+  transform-origin: 50% 100%;
+}
+
+.kid__arm {
+  transform-origin: 50% 8%;
+}
+
+.kid__tail {
+  transform-origin: 50% 0;
+}
+
+.kid--nobita {
+  animation: kid-hop-nobita 3.2s ease-in-out infinite;
+}
+.kid--nobita .kid__arm--front {
+  animation: kid-arm-nobita 3.2s ease-in-out infinite;
+}
+.kid--nobita .kid__arm--back {
+  animation: kid-arm-back 1.6s ease-in-out infinite alternate;
+}
+
+.kid--shizuka {
+  animation: kid-hop-shizuka 3.2s ease-in-out infinite;
+}
+.kid--shizuka .kid__arm--front {
+  animation: kid-arm-shizuka 3.2s ease-in-out infinite;
+}
+.kid--shizuka .kid__arm--back {
+  animation: kid-arm-back 1.6s ease-in-out infinite alternate-reverse;
+}
+.kid__tail--left {
+  animation: kid-tail 1.6s ease-in-out infinite alternate;
+}
+.kid__tail--right {
+  animation: kid-tail 1.6s ease-in-out infinite alternate-reverse;
+}
+
+.kid-ball {
+  animation: kid-ball-x 1.6s linear infinite alternate;
+}
+.kid-ball__arc {
+  animation: kid-ball-y 1.6s infinite;
+}
+
+.dark .dora-kids {
+  filter: brightness(0.62) saturate(0.85);
+}
+
+@keyframes kid-ball-x {
+  to {
+    transform: translateX(48px);
+  }
+}
+
+@keyframes kid-ball-y {
+  0% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1);
+  }
+  50% {
+    transform: translateY(-42px);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* 大雄的前手：0% 刚把球抛出去，88%～100% 举起来接回来的球 */
+@keyframes kid-arm-nobita {
+  0%,
+  100% {
+    transform: rotate(-130deg);
+  }
+  14% {
+    transform: rotate(-60deg);
+  }
+  28%,
+  74% {
+    transform: rotate(-12deg);
+  }
+  88% {
+    transform: rotate(-100deg);
+  }
+}
+
+/* 静香的前手：50% 接到球，紧接着抛回去 */
+@keyframes kid-arm-shizuka {
+  0%,
+  24%,
+  78%,
+  100% {
+    transform: rotate(12deg);
+  }
+  38% {
+    transform: rotate(100deg);
+  }
+  50% {
+    transform: rotate(130deg);
+  }
+  64% {
+    transform: rotate(60deg);
+  }
+}
+
+@keyframes kid-arm-back {
+  from {
+    transform: rotate(-14deg);
+  }
+  to {
+    transform: rotate(14deg);
+  }
+}
+
+@keyframes kid-hop-nobita {
+  0%,
+  86%,
+  100% {
+    transform: translateY(0);
+  }
+  93% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes kid-hop-shizuka {
+  0%,
+  36%,
+  54%,
+  100% {
+    transform: translateY(0);
+  }
+  43% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes kid-tail {
+  from {
+    transform: rotate(-10deg);
+  }
+  to {
+    transform: rotate(10deg);
   }
 }
 
@@ -776,6 +1067,13 @@ onUnmounted(() => {
   }
   .dora-cloud {
     transform: translate3d(calc(var(--cloud-x, 0) * 100vw), 0, 0);
+  }
+  .kid,
+  .kid__arm,
+  .kid__tail,
+  .kid-ball,
+  .kid-ball__arc {
+    animation: none;
   }
 }
 
