@@ -134,9 +134,7 @@ onUnmounted(() => {
   <div class="background-container" :style="backgroundContainerStyle">
     <Transition name="fade">
       <div v-if="showDefaultBackground" class="default-background" aria-hidden="true">
-        <!-- 液态玻璃需要有颜色可以折射：天空里铺几团缓慢漂移的柔光 -->
-        <span class="lg-glow lg-glow--gold" />
-        <span class="lg-glow lg-glow--pink" />
+        <!-- 液态玻璃需要有东西可以折射：天空里铺一团缓慢漂移的柔光 -->
         <span class="lg-glow lg-glow--white" />
         <div class="dora-sun" />
         <div class="dora-sky-pattern" />
@@ -368,53 +366,12 @@ onUnmounted(() => {
   pointer-events: none;
 }
 
-/* 柔光：铃铛金、任意门粉和一团白光，玻璃卡片从它们上面滑过时会带出淡淡的色彩 */
+/* 柔光：一团白光，玻璃卡片从它上面滑过时会带出淡淡的明暗变化 */
 .lg-glow {
   display: block;
   aspect-ratio: 1;
   border-radius: 50%;
   animation: lg-glow-drift 36s ease-in-out infinite alternate;
-}
-
-.lg-glow--gold {
-  top: 4%;
-  right: 8%;
-  width: min(34rem, 70vw);
-  background: radial-gradient(circle, rgb(255 215 0 / 0.6), rgb(255 215 0 / 0) 66%);
-  /* 金光和粉光各走一条游走路线，同时一呼一吸地明暗、胀缩，两者节奏错开 */
-  animation:
-    lg-glow-wander-gold 24s ease-in-out infinite,
-    lg-glow-breathe 6s ease-in-out infinite alternate;
-}
-
-.lg-glow--pink {
-  top: 44%;
-  left: 12%;
-  width: min(38rem, 80vw);
-  background: radial-gradient(circle, rgb(242 124 168 / 0.5), rgb(242 124 168 / 0) 66%);
-  animation:
-    lg-glow-wander-pink 30s ease-in-out infinite,
-    lg-glow-breathe 7.5s ease-in-out -3s infinite alternate;
-}
-
-/* 光团里有一颗更亮的光心在绕圈，像铃铛和任意门上流动的反光 */
-.lg-glow--gold::before,
-.lg-glow--pink::before {
-  content: '';
-  position: absolute;
-  inset: 16%;
-  border-radius: 50%;
-  animation: lg-glow-orbit 14s linear infinite;
-}
-
-.lg-glow--gold::before {
-  background: radial-gradient(circle at 30% 30%, rgb(255 240 140 / 0.6), rgb(255 215 0 / 0) 42%);
-}
-
-.lg-glow--pink::before {
-  background: radial-gradient(circle at 30% 30%, rgb(255 120 150 / 0.5), rgb(242 124 168 / 0) 42%);
-  animation-duration: 18s;
-  animation-direction: reverse;
 }
 
 .lg-glow--white {
@@ -423,22 +380,6 @@ onUnmounted(() => {
   width: min(30rem, 66vw);
   background: radial-gradient(circle, rgb(255 255 255 / 0.38), rgb(255 255 255 / 0) 66%);
   animation-duration: 52s;
-}
-
-.dark .lg-glow--gold {
-  background: radial-gradient(circle, rgb(255 215 0 / 0.12), rgb(255 215 0 / 0) 66%);
-}
-
-.dark .lg-glow--pink {
-  background: radial-gradient(circle, rgb(139 92 246 / 0.3), rgb(139 92 246 / 0) 66%);
-}
-
-.dark .lg-glow--gold::before {
-  background: radial-gradient(circle at 30% 30%, rgb(255 225 80 / 0.16), rgb(255 215 0 / 0) 42%);
-}
-
-.dark .lg-glow--pink::before {
-  background: radial-gradient(circle at 30% 30%, rgb(167 139 250 / 0.32), rgb(139 92 246 / 0) 42%);
 }
 
 .dark .lg-glow--white {
@@ -1040,56 +981,6 @@ onUnmounted(() => {
   }
 }
 
-/* 游走用独立的 translate、呼吸用 scale + opacity，两组动画可以叠加而不互相覆盖 */
-@keyframes lg-glow-wander-gold {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  25% {
-    translate: -9vw 7vh;
-  }
-  50% {
-    translate: -16vw -2vh;
-  }
-  75% {
-    translate: -5vw -6vh;
-  }
-}
-
-@keyframes lg-glow-wander-pink {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  25% {
-    translate: 11vw -6vh;
-  }
-  50% {
-    translate: 5vw -13vh;
-  }
-  75% {
-    translate: 14vw 4vh;
-  }
-}
-
-@keyframes lg-glow-breathe {
-  from {
-    opacity: 0.7;
-    scale: 0.9;
-  }
-  to {
-    opacity: 1;
-    scale: 1.16;
-  }
-}
-
-@keyframes lg-glow-orbit {
-  to {
-    rotate: 360deg;
-  }
-}
-
 @keyframes dora-cloud-float {
   from {
     transform: translate3d(-100%, 0, 0);
@@ -1138,7 +1029,6 @@ onUnmounted(() => {
 
 @media (prefers-reduced-motion: reduce) {
   .lg-glow,
-  .lg-glow::before,
   .dora-sun,
   .dora-cloud,
   .dora-flyer,
